@@ -1,0 +1,69 @@
+#include "mbed.h"
+#include "m3pi_ng.h"
+#include "btbee.h"
+
+m3pi bigdicky;
+btbee bt;
+Timer timer;
+
+int main() {
+    while (true){
+        
+        //get data from bt
+        char btinput[1];
+        int useless;
+        bt.read_all(btinput, 1, &useless);
+        
+        int input  = (int) btinput[0];
+        
+        //write to screen
+        bigdicky.locate(0,0);
+        bigdicky.printf("working");
+        bigdicky.locate(0,1);
+        bigdicky.printf(btinput);
+        
+        //vars
+        int v_right = 0;
+        int v_left = 0;
+        int right = 8;
+        int left = 4;
+        int up = 2;
+        int down = 1;
+        
+        //up
+        if(input & up) {
+            v_right += 0.2;
+            v_left +=0.2;
+        }
+        
+        //down
+        if(input & down) {
+            v_right -= 0.2;
+            v_left -= 0.2;    
+        }
+        
+        //right turn
+        if (input & right) {
+            v_right -= 0.2;
+            v_left += 0.2;
+        }
+        
+        //left turn
+        if (input& left) {
+            v_right += 0.2;
+            v_left -= 0.2;
+        }
+        
+        if(v_right > 1) {
+            v_right = 1;
+        }
+        
+        if(v_left > 1) {
+            v_left = 1
+        }
+        
+        bigdicky.right_motor(v_right);
+        bigdicky.left_motor(v_left);
+   }
+
+}
