@@ -3,7 +3,7 @@ from pygame.locals import *
 
 running = True
 up = down = left = right = 0
-ser = serial.Serial('com4',115200)
+ser = serial.Serial('com3',115200)
 
 while running:
     for event in pygame.event.get():
@@ -17,4 +17,3 @@ while running:
     hexNum = chr(num)
 
     ser.write(hexNum)
-
